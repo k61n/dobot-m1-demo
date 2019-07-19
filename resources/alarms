@@ -1,0 +1,963 @@
+0x10
+2.1 Inverse Kinematics Singularity Alarm
+Description
+The planned target point (starting point or end point) is at the singular position where the joint angle of Forearm ranges from -20° to 20°, resulting in an inverse kinematics solution error.
+Reason
+- The planned target point is at the singular position in MOVL mode.
+- The planned middle point or the target point is at the singular position in ARC mode.
+- The planned target point is at the singular position in CP mode.
+- The planned target point is at the singular position in JUMP_MOVL mode.
+Solution
+1) Check whether the target point is at the singular point. Modify and resave it.
+2) Click ClearAlarm.
+
+0x11
+2.2 No Inverse Kinematics Solution Alarm
+Description
+The planned target point is out of range of the workspace, resulting in that there is no inverse kinematics solution.
+Reason
+The planned target point is out of range of the workspace in all modes.
+Solution
+1) Check whether the target point is out of range of the workspace. Modify and resave it. For details about the workspace of Dobot M1, please see Dobot M1 User Guide.
+2) Click ClearAlarm.
+
+0x12
+2.3 Inverse Kinematics Limit Alarm
+Description
+The inverse kinematics solution calculated according to the planned target point is greater than the specified joint angle.
+Reason
+The inverse kinematics solution calculated according to the planned target point is greater than the specified joint angle in all modes.
+Solution
+1) Check whether the joint angle of the target point is greater than the specified joint
+angle. Modify and resave it.
+Joint	Negative Limit	Positive Limit
+J1	-85°	85°
+J2	-135°	135°
+J3	10mm	235mm
+J4	-360°	360°
+2) Click ClearAlarm.
+
+0x13
+2.4 Data Repeatability Alarm
+Description
+The planed points are the same in ARC or JUMP_MOVL mode.
+Reason
+- Any two of the three points of the arc are coincided in ARC mode.
+- The starting point and the end point are the same in JUMP_MOVL mode.
+Solution
+1) Check whether the points are the same. Modify and resave them.
+2) Click ClearAlarm.
+
+0x14
+2.5 Input Parameter Error Alarm in ARC Mode
+Description
+The planned middle point and the planned end point cannot form an arc.
+Reason
+The three points in ARC mode are the same or in a line.
+Solution
+1) Check whether the saved points are the same or in a line. Modify and resave them.
+2) Click ClearAlarm.
+
+0x15
+2.6 JUMP Parameter Error Alarm
+The Height, Limit parameters are wrong.
+Reason
+- Limit is higher than the maximum height (235 mm).
+- Limit is lower than the minimum height (10 mm).
+- Limit is lower than 0.
+Solution
+1) Check the JUMP parameters, and reset them.
+2) Click ClearAlarm.
+
+0x16
+2.7 Arm Orientation Error Alarm
+Description
+The arm orientations of the starting point and the end point are different in MOVL, ARC, CP or JUMP_MOVL mode, resulting in that the trajectory will go through the singular position.
+Reason
+- The arm orientations of the starting point and the end point are different in MOVL mode.
+- The arm orientations of the starting point and the end point are different in ARC mode.
+- The arm orientations of the starting point and the end point are different in CP mode.
+- The arm orientations of the starting point and the end point are different in JUMP_MOVL mode.
+Solution
+1) Check the arm orientations of the two saved points, and ensure that the arm orientations are the same.
+2) Click ClearAlarm.
+
+0x17
+2.8 Planned Point Out of Range of Workspace in MOVL Mode
+Description
+The planned point is out of range of the workspace in MOVL mode.
+Reason
+The planned trajectory is out of range of the workspace in MOVL mode.
+Solution
+1) Check whether the planned trajectory from the starting point to the end point is out of range of the workspace. Modify and resave it.
+2) Click ClearAlarm.
+
+0x18
+2.9 Planned Point Out of Range of Workspace in ARC Mode
+Description
+The planned point is out of range of the workspace in ARC mode.
+Reason
+The planned trajectory is out of range of the workspace in ARC mode
+Solution
+1) Check whether the planned trajectory in ARC mode is out of range of the workspace.
+Modify and resave it.
+2) Click ClearAlarm.
+
+0x19
+2.10 Motion Command Error Alarm
+Description
+The motion command is unknown.
+Reason
+The motion command is not provided by the API interface.
+Solution
+1) Check whether the motion command is correct. Modify and resave it.
+2) Click ClearAlarm.
+
+0x1A
+2.11 Speed Parameter Error Alarm
+Description
+The relevant speed parameters are set to 0 or negative.
+Reason
+The relevant speed parameters are set to 0 or negative.
+Solution
+1) Check the relevant speed parameters. Modify and resave them.
+2) Click ClearAlarm.
+
+0x1B
+2.12 Planned Trajectory Error in CP Mode
+Description
+The planned trajectory is abnormal in CP mode, resulting in that Dobot M1 cannot work.
+Reason
+- The interpolation of the trajectory is abnormal in CP mode, and the running cycle is negative.
+- The interpolation speed of the trajectory is negative.
+Solution
+The data is abnormal, and replace the data file.
+
+0x20
+3.1 Inverse Kinematics Solution Singularity Alarm
+Description
+A point on the trajectory is at the singular position where the joint angle of Forearm ranges from -20° to 20°, resulting in an inverse kinematics solution error.
+Reason
+- Dobot M1 is jogged to the singular position under the Cartesian coordinate system.
+- The trajectory passes through the singular position when Dobot M1 moves in MOVL
+mode.
+- The trajectory passes through the singular position when Dobot M1 moves in ARC mode.
+- The trajectory passes through the singular position when Dobot M1 moves in CP mode.
+- The trajectory passes through the singular position when Dobot M1 moves in JUMP_MOVL mode.
+Solution
+- If you jog Dobot M1 to the singular position, please jog Joint2 to clear the alarm.
+- If a point on the trajectory is at the singular position when Dobot M1 moves with motion commands, please modify and resave the target point, then click ClearAlarm.
+
+0x21
+3.2 No Inverse Kinematics Solution Alarm
+Description
+The trajectory is out of range of the workspace when Dobot M1 moves with motion commands, resulting in that there is no inverse kinematics solution.
+Reason
+The trajectory is out of range of the workspace when Dobot M1 moves in all modes.
+Solution
+1) Check whether the trajectory is out of range of the workspace. Modify and resave it.
+2) Click ClearAlarm.
+
+0x22
+3.3 Inverse Kinematics Limit Alarm
+Description
+The inverse kinematics solution calculated according to the point on the trajectory is greater than the specified joint angle
+Reason
+The joint angle of a point on the trajectory is greater than the specified joint angle when Dobot M1 moves in all modes.
+Solution
+1) Check whether joint angle of a point on the trajectory is greater than the specified joint angle when Dobot M1 moves. Modify the starting point or the end point and resave it.
+2) Click ClearAlarm.
+
+0x30
+4.1 Over-speed Alarm of Joint1
+Description
+The speed of J1 motor is greater than the specific speed.
+Reason
+The speed of J1 motor is greater than the specific speed in MOVL and ARC modes.
+Solution
+1) Decrease the ratio of the speed to make the speed of J1 motor within the allowed speed range.
+2) Click ClearAlarm.
+
+0x31
+4.2 Over-speed Alarm of Joint2
+Description
+The speed of J2 motor is greater than the specific speed.
+Reason
+The speed of J2 motor is greater than the specific speed in MOVL and ARC modes.
+Solution
+1) Decrease the ratio of the speed to make the speed of J2 motor within the allowed speed range.
+2) Click ClearAlarm.
+
+0x32
+4.3 Over-speed Alarm of Joint3
+Description
+The speed of J3 motor is greater than the specific speed.
+Reason
+The speed of J3 motor is greater than the specific speed in MOVL and ARC modes.
+Solution
+1) Decrease the ratio of the speed to make the speed of J3 motor within the allowed speed range.
+2) Click ClearAlarm.
+
+0x33
+4.4 Over-speed Alarm of Joint4
+Description
+The speed of J4 motor is greater than the specific speed.
+Reason
+The speed of J3 motor is greater than the specific speed in MOVL and ARC modes.
+Solution
+1) Decrease the ratio of the speed to make the speed of J4 motor within the allowed speed range.
+2) Click ClearAlarm.
+
+0x40
+5.1 Positive Limit Alarm of Joint1
+Trigger condition
+The joint1 is at the positive limited position.
+Reset condition
+Jog the joint1 towards the opposite direction and the alarm will be automatically cleared.
+
+0x41
+5.2 Negative Limit Alarm of Joint1
+Trigger condition
+The joint1 is at the negative limited position.
+Reset condition
+Jog the joint1 towards the opposite direction and the alarm will be automatically cleared.
+
+0x42
+5.3 Positive Limit Alarm of Joint2
+Trigger condition
+The joint2 is at the positive limited position.
+Reset condition
+Jog the joint2 towards the opposite direction and the alarm will be automatically cleared.
+
+0x43
+5.4 Negative Limit Alarm of Joint2
+Trigger condition
+The joint2 is at the negative limited position.
+Reset condition
+Jog the joint2 towards the opposite direction and the alarm will be automatically cleared.
+
+0x44
+5.5 Positive Limit Alarm of Joint3
+Trigger condition
+The joint3 is at the positive limited position.
+Reset condition
+Jog the joint3 towards the opposite direction and the alarm will be automatically cleared.
+
+0x45
+5.6 Negative Limit Alarm of Joint3
+Trigger condition
+The joint3 is at the negative limited position.
+Reset condition
+Jog the joint3 towards the opposite direction and the alarm will be automatically cleared.
+
+0x46
+5.7 Positive Limit Alarm of Joint4
+Trigger condition
+The joint4 is at the positive limited position.
+Reset condition
+Jog the joint4 towards the opposite direction and the alarm will be automatically cleared.
+
+0x47
+5.8 Negative Limit Alarm of Joint4
+Trigger condition
+The joint4 is at the negative limited position.
+Reset condition
+Jog the joint4 towards the opposite direction and the alarm will be automatically cleared.
+
+0x48
+5.9 Rear Arm and Forearm Machine-Limit Alarm
+Trigger condition
+The end-effector of Dobot M1 goes through the protection area of Z-axis Screw.
+Reset condition
+Move Rear Arm or Forearm towards the opposite direction to clear the alarm automatically.
+
+0x70
+6.1 Multi-turn Number Abnormal Alarm Description of Rear Arm Encoder
+Description
+The Multi-turn number of Rear arm Encoder is abnormal.
+Reason
+- The cable connection between the Rear arm Encoder and Driver board is abnormal.
+- The battery is disconnected or reconnected to the Encoder.
+- The battery capacity of Rear arm Encoder is too low.
+Solution
+1) Check the cable connection between Rear arm Encoder board and Driver board.
+2) Check the battery capacity. If the battery capacity is too low, it will trigger the alarm ERR_MOTOR_REAR_BATTERY_LOW as well.
+3) Reset Rear arm Encoder using the debugging software of Dobot M1. For details, please see Dobot M1 User Guide.
+4) Reboot Dobot M1
+
+0x71
+6.2 High Temperature Alarm of Rear Arm Driver Board
+Description
+The temperature of Rear arm Driver board is too high.
+Reason
+The temperature of Rear arm Driver board is too high.
+Solution
+Improve the heat dissipation of Driver board and reboot the Dobot M1.
+
+0x72
+6.3 Low Temperature Alarm of Rear Arm Driver Board
+Description
+The temperature of Rear arm Driver board is too low.
+Reason
+The operating temperature of Dobot M1 is too low.
+Solution
+Place the Dobot M1 in a proper operating environment and reboot it.
+
+0x73
+6.4 Motor-locked Alarm of Rear Arm Driver Board
+Description
+The Rear arm motor is stalled and the Driver board detects an abnormal current.
+Reason
+The Rear arm motor is stalled and the Driver board detects an abnormal current.
+Solution
+1) Check whether the Rear arm is in a machine-limited position or blocked by obstacles.
+2) Reboot Dobot M1.
+
+0x74
+6.5 High DC Bus Voltage of Rear Arm Driver Board
+Description
+The DC bus voltage of Rear arm Driver is too high.
+Reason
+The DC bus voltage of Rear arm Driver is too high.
+Solution
+1) Check the power supply of Dobot M1
+2) Reboot Dobot M1.
+
+0x75
+6.6 Low DC Bus Voltage of Rear Arm Driver Board
+Description
+The DC bus voltage of Rear arm Driver is too low.
+Reason
+The DC bus voltage of Rear arm Driver is too low.
+Solution
+1) Check the power supply of Dobot M1.
+2) Reboot Dobot M1.
+
+0x76
+6.7 IIT Alarm of Rear Arm Driver Board
+Description
+IIT alarm of the Rear arm Driver board.
+Reason
+Rear arm motor works too long time (longer than the specific time) in overload state.
+Solution
+1) Check the load and working condition of Dobot M1.
+2) Reboot Dobot M1.
+
+0x77
+6.8 Over-speed Alarm of Rear Arm Driver Board
+Description
+Rear arm motor working speed is over the rated speed or much higher than the expected speed.
+Reason
+- The power cable of Rear arm motor is abnormal.
+- Rear arm Encoder is abnormal.
+- The angle self-learning of Rear arm motor is abnormal.
+Solution
+1) Check the power cable connection between Rear arm motor and Rear arm Driver board.
+2) Check the cable connection between Rear arm Encoder and Rear arm Driver board.
+3) Re-execute self-learning using Dobot M1 debugging software.
+
+0x78
+6.9 Low Battery Capacity of Rear Arm Encoder
+Description
+The battery capacity of Rear arm Encoder is too low.
+Reason
+- The connection between Rear arm Encoder and the battery is abnormal.
+- The battery capacity of Rear arm Encoder is low.
+Solution
+1) Check the connection between Rear arm Encoder and the battery.
+2) Replace the battery and reset the Encoder based on the battery change guide on the M1Studio.
+
+0x79
+6.10 Phase-lack Alarm of Rear Arm Motor
+Description
+Rear arm motor lacks phase
+Reason
+The power cable of Rear arm motor is disconnected or poor connected.
+Solution
+1) Check the power cable connection of Rear arm motor.
+2) Reboot Dobot M1.
+
+0x7A
+6.11 Wrong Phase Alarm of Rear Arm Motor
+Description
+The power cable of Rear arm motor has wrong phase.
+Reason
+The power cable connection between Rear arm motor and Rear arm Driver board is wrong.
+Solution
+1) Check the power cable connection of Rear arm motor.
+2) Reboot Dobot M1.
+
+0x7B
+6.12 Lost-speed Alarm of Rear Arm Driver Board
+Description
+The working speed of Rear arm motor is zero or much lower than the expected speed.
+Reason
+- The power cable of Rear arm motor is abnormal.
+- Rear arm Encoder is abnormal.
+- The angle self-learning of Rear arm motor is abnormal.
+Solution
+1) Check the power cable connection between Rear arm motor and Rear arm Driver board.
+2) Check the cable connection between Rear arm Encoder and Rear arm Driver board.
+3) Re-execute angle self-learning using Dobot M1 debugging software.
+4) Reboot Dobot M1.
+
+0x7C
+6.13 Angle Self-learning Alarm of Rear Arm Driver Board
+Description
+The angle self-learning of Rear arm Driver board is abnormal.
+Reason
+- The angle self-learning of Rear arm Driver board has not been started.
+- The self-learning data in EEPROM is lost.
+Solution
+Re-execute self-learning using Dobot M1 debugging software.
+
+0x7D
+6.14 Calibration Alarm of Rear Arm Encoder
+Description
+Rear arm Encoder is not calibrated.
+Reason
+- Rear arm Encoder is not calibrated.
+- The calibration data of Rear arm Encoder is lost.
+Solution
+Please recalibrate Rear arm Encoder. For details, please see Dobot M1 User Guide.
+
+0x7E
+6.15 CAN Communication Interruption Alarm of Rear Arm
+Description
+The CAN communication with Rear arm is interrupted.
+Reason
+- Rear arm Driver board is not working.
+- The CAN cable connection between Rear arm and the controller is abnormal.
+- The hardware circuit related to the CAN chip is abnormal.
+Solution
+Restart Dobot M1 after checking the CAN cable and the CAN chip.
+
+0x80
+7.1 Multi-turn Number Abnormal Alarm Description of Forearm Encoder
+Description
+The Multi-turn number of Forearm Encoder is abnormal.
+Reason
+- The cable connection between the Forearm Encoder and Driver board is abnormal.
+- The battery is disconnected or reconnected to the Encoder.
+- The battery capacity of Forearm Encoder is too low.
+Solution
+7.2
+1) Check the cable connection between Forearm Encoder and Driver board.
+2) Check the battery capacity. If the battery capacity is too low, it will trigger the alarm ERR_MOTOR_FRONT_BATTERY_LOW as well.
+3) Reset Forearm Encoder using the debugging software of Dobot M1. For details, please see Dobot M1 User Guide.
+4) Reboot Dobot M1.
+
+0x81
+7.2 High Temperature Alarm of Forearm Driver Board
+Description
+The temperature of Forearm Driver board is too high.
+Reason
+The temperature of Forearm Driver board is too high.
+Solution
+Improve the heat dissipation of Driver board and reboot Dobot M1.
+
+0x82
+7.3 Low Temperature Alarm of Forearm Driver Board
+Description
+The temperature of Forearm Driver board is too low.
+Reason
+The operating temperature of Dobot M1 is too low.
+Solution
+Place the Dobot M1 in a proper operating environment and reboot it.
+
+0x83
+7.4 Motor-locked Alarm of Forearm Driver Board
+Description
+The Forearm motor is stalled and the Driver board detects an abnormal current.
+Reason
+The Forearm motor is stalled and the Driver board detects an abnormal current.
+Solution
+1) Check whether the Forearm is in a machine-limited position or blocked by obstacles.
+2) Reboot Dobot M1.
+
+0x84
+7.5 High DC Bus Voltage of Forearm Driver Board
+Description
+The DC bus voltage of Forearm Driver is too high.
+Reason
+The DC bus voltage of Forearm Driver is too high.
+Solution
+1) Check the power supply of Dobot M1.
+2) Reboot Dobot M1.
+
+0x85
+7.6 Low DC Bus Voltage of Forearm Driver Board
+Description
+The DC bus voltage of Forearm Driver is too low.
+Reason
+The DC bus voltage of Forearm Driver is too low.
+Solution
+1) Check the power supply of Dobot M1.
+2) Reboot Dobot M1.
+
+0x86
+7.7 IIT Alarm of Forearm Driver Board
+Description
+IIT alarm of the Forearm Driver board.
+Reason
+Forearm motor works too long time (longer than the specific time) in overload state.
+Solution
+1) Check the load and working condition of Dobot M1.
+2) Reboot Dobot M1.
+
+0x87
+7.8 Over-speed Alarm of Forearm Driver Board
+Description
+Forearm motor working speed is over the rated speed or much higher than the expected speed.
+Reason
+- The power cable of Forearm motor is abnormal.
+- Forearm Encoder is abnormal.
+- The angle self-learning of Forearm motor is abnormal.
+Solution
+1) Check the power cable connection between Forearm motor and Forearm Driver board.
+2) Check the cable connection between Forearm Encoder and Forearm Driver board.
+3) Re-execute self-learning using Dobot M1 debugging software.
+
+0x88
+7.9 Low Battery Capacity of Forearm Encoder
+Description
+The battery capacity of Forearm Encoder is too low.
+Reason
+- The connection between Forearm Encoder and the battery is abnormal.
+- The battery capacity of Forearm Encoder is low.
+Solution
+1) Check the connection between Forearm Encoder and the battery.
+2) Replace the battery and reset the Encoder based on the battery change guide on the M1Studio.
+
+0x89
+7.10 Phase-lack Alarm of Forearm Motor
+Description
+Forearm motor lacks phase
+Reason
+The power cable of Forearm motor is disconnected or poor connected.
+Solution
+1) Check the power cable connection of Forearm motor.
+2) Reboot Dobot M1.
+
+0x8A
+7.11 Wrong Phase Alarm of Forearm Motor
+Description
+The power cable of Forearm motor has wrong phase.
+Reason
+The power cable connection between Forearm motor and Forearm Driver board is wrong.
+Solution
+1) Check the power cable connection of Forearm motor.
+2) Reboot Dobot M1.
+
+0x8B
+7.12 Lost-speed Alarm of Forearm Driver Board
+Description
+The working speed of Forearm motor is zero or much lower than the expected speed.
+Reason
+- The power cable of Forearm motor is abnormal.
+- Forearm Encoder is abnormal.
+- The angle self-learning of Forearm motor is abnormal.
+Solution
+1) Check the power cable connection between Forearm motor and Forearm Driver board.
+2) Check the cable connection between Forearm Encoder and Forearm Driver board.
+3) Re-execute angle self-learning using Dobot M1 debugging software.
+4) Reboot Dobot M1.
+
+0x8C
+7.13 Angle Self-learning Alarm of Forearm Driver Board
+Description
+The angle self-learning of Forearm Driver board is abnormal.
+Reason
+- The angle self-learning of Forearm Driver board has not been started.
+- The self-learning data in EEPROM is lost.
+Solution
+Re-execute self-learning using Dobot M1 debugging software.
+
+0x8D
+7.14 Calibration Alarm of Forearm Encoder
+Description
+Forearm Encoder is not calibrated.
+Reason
+- Forearm Encoder is not calibrated.
+- The calibration data of Forearm Encoder is lost.
+Solution
+Please recalibrate Forearm Encoder. For details, please see Dobot M1 User Guide.
+
+0x8E
+7.15 CAN Communication Interruption Alarm of Forearm
+Description
+The CAN communication with Forearm is interrupted.
+Reason
+- Forearm Driver board is not working.
+- The CAN cable connection between Forearm and the controller is abnormal.
+- The hardware circuit related to the CAN chip is abnormal.
+Solution
+Restart Dobot M1 after checking the CAN cable and the CAN chip.
+
+0x90
+8.1 Multi-turn Number Abnormal Alarm Description of Z-axis Encoder
+Description
+The Multi-turn number of Z-axis Encoder is abnormal.
+Reason
+- The cable connection between the Z-axis Encoder and Driver board is abnormal.
+- The battery is disconnected or reconnected to the Encoder.
+- The battery capacity of Z-axis Encoder is too low.
+Solution
+1) Check the cable connection between Z-axis Encoder and Driver board.
+2) Check the battery capacity. If the battery capacity is too low, it will trigger the alarm ERR_MOTOR_Z_BATTERY_LOW as well.
+3) Reset Z-axis Encoder using the debugging software of Dobot M1. For details, please see Dobot M1 User Guide.
+4) Reboot Dobot M1.
+
+0x91
+8.2 High Temperature Alarm of Z-axis Driver Board
+Description
+The temperature of Z-axis Driver board is too high.
+Reason
+- The temperature of Z-axis Driver board is too high.
+- The energy regeneration is abnormal.
+Solution
+1) Improve heat dissipation of Z-axis Driver.
+2) Check the energy regeneration.
+3) Reboot Dobot M1.
+
+0x92
+8.3 Low Temperature Alarm of Z-axis Driver Board
+Description
+The temperature of Z-axis Driver board is too low.
+Reason
+The operating temperature of Dobot M1 is too low.
+Solution
+Place the Dobot M1 in a proper operating environment and reboot it.
+
+0x93
+8.4 Motor-locked Alarm of Z-axis Driver Board
+Description
+The Z-axis motor is stalled and the Driver board detects an abnormal current.
+Reason
+- Z-axis Motor is stalled, resulting in that the current is too large, and Z-axis Driver detects an abnormal current.
+- The angle self-learning of Z-axis Motor is abnormal.
+Solution
+1) Check whether Z-axis is in a machine-limited position or blocked by obstacles, and restart Dobot M1.
+2) If the problem persists, please re-execute angle self-learning of Z-axis Motor using the debugging software of Dobot M1. For details, please contact technical support engineer.
+
+0x94
+8.5 High DC Bus Voltage of Z-axis Driver Board
+Description
+The DC bus voltage of Z-axis Driver is too high.
+Reason
+- The DC bus voltage of Z-axis Driver is too high.
+- The energy regeneration is abnormal.
+Solution
+1) Check the power supply of Dobot M1.
+2) Check the energy regeneration.
+3) Restart Dobot M1.
+
+0x95
+8.6 Low DC Bus Voltage of Z-axis Driver Board
+Description
+The DC bus voltage of Z-axis Driver is too low.
+Reason
+The DC bus voltage of Z-axis Driver is too low.
+Solution
+1) Check the power supply of Dobot M1.
+2) Reboot Dobot M1.
+
+0x96
+8.7 IIT Alarm of Z-axis Driver Board
+Description
+IIT alarm of Z-axis Driver board.
+Reason
+Z-axis motor works too long time (longer than the specific time) in overload state.
+Solution
+1) Check the load and working condition of Dobot M1.
+2) Reboot Dobot M1.
+
+0x97
+8.8 Over-speed Alarm of Z-axis Driver Board
+Description
+Z-axis motor working speed is over the rated speed or much higher than the expected speed.
+Reason
+- The power cable of Z-axis motor is abnormal.
+- Z-axis Encoder is abnormal.
+- The angle self-learning of Z-axis motor is abnormal.
+Solution
+1) Check the power cable connection between Z-axis motor and Z-axis Driver board.
+2) Check the cable connection between Z-axis Encoder and Z-axis Driver board.
+3) Re-execute self-learning using Dobot M1 debugging software.
+
+0x98
+8.9 Low Battery Capacity of Z-axis Encoder
+Description
+The battery capacity of Z-axis Encoder is too low.
+Reason
+- The connection between Z-axis Encoder and the battery is abnormal.
+- The battery capacity of Z-axis Encoder is low.
+Solution
+1) Check the connection between Z-axis Encoder and the battery.
+2) Replace the battery and reset the Encoder based on the battery change guide on the M1Studio.
+
+0x99
+8.10 Phase-lack Alarm of Z-axis Motor
+Description
+Z-axis motor lacks phase.
+Reason
+The power cable of Z-axis motor is disconnected or poor connected.
+Solution
+1) Check the power cable connection of Z-axis motor.
+2) Reboot Dobot M1.
+
+0x9A
+8.11 Wrong Phase Alarm of Z-axis Motor
+Description
+The power cable of Z-axis motor has wrong phase.
+Reason
+The power cable connection between Z-axis motor and Z-axis Driver board is wrong.
+Solution
+1) Check the power cable connection of Z-axis motor.
+2) Reboot Dobot M1.
+
+0x9B
+8.12 Lost-speed Alarm of Z-axis Driver Board
+Description
+The working speed of Z-axis motor is zero or much lower than the expected speed.
+Reason
+- The power cable of Z-axis motor is abnormal.
+- Z-axis Encoder is abnormal.
+- The angle self-learning of Z-axis motor is abnormal.
+Solution
+1) The power cable of Z-axis motor is abnormal.
+2) Check the cable connection between Z-axis Encoder and Z-axis Driver board.
+3) Re-execute angle self-learning using Dobot M1 debugging software.
+
+0x9C
+8.13 Angle Self-learning Alarm of Z-axis Driver Board
+Description
+The angle self-learning of Z-axis Driver board is abnormal.
+Reason
+- The angle self-learning of Z-axis Driver board has not been started.
+- The self-learning data in EEPROM is lost.
+Solution
+Re-execute self-learning using Dobot M1 debugging software.
+
+0x9D
+8.14 Calibration Alarm of Z-axis Encoder
+Description
+Z-axis Encoder is not calibrated.
+Reason
+- Z-axis Encoder is not calibrated.
+- The calibration data of Z-axis Encoder is lost.
+Solution
+Please recalibrate Z-axis Encoder. For details, please see Dobot M1 User Guide.
+
+0x9E
+8.15 CAN Communication Interruption Alarm of Z-axis
+Description
+The CAN communication with Z-axis is interrupted.
+Reason
+- Z-axis Driver board is not working.
+- The CAN cable connection between Z-axis and the controller is abnormal.
+- The hardware circuit related to the CAN chip is abnormal.
+Solution
+Restart Dobot M1 after checking the CAN cable and the CAN chip.
+
+0xA0
+9.1 Multi-turn Number Abnormal Alarm Description of R-axis Encoder
+Description
+The Multi-turn number of R-axis Encoder is abnormal.
+Reason
+- The cable connection between the R-axis Encoder and Driver board is abnormal.
+- The battery is disconnected or reconnected to the Encoder.
+- The battery capacity of R-axis Encoder is too low.
+Solution
+9.2
+1) Check the cable connection between R-axis Encoder board and Driver board.
+2) Check the battery capacity. If the battery capacity is too low, it will trigger the alarm ERR_MOTOR_R_BATTERY_LOW as well.
+3) Reset R-axis Encoder using the debugging software of Dobot M1. For details, please see Dobot M1 User Guide.
+4) Reboot Dobot M1.
+
+0xA1
+9.2 High Temperature Alarm of R-axis Driver Board
+Description
+The temperature of R-axis Driver board is too high.
+Reason
+The temperature of R-axis Driver board is too high.
+Solution
+Improve the heat dissipation of Driver board and reboot Dobot M1.
+
+0xA2
+9.3 Low Temperature Alarm of R-axis Driver Board
+Description
+The temperature of R-axis Driver board is too low.
+Reason
+The operating temperature of Dobot M1 is too low.
+Solution
+Place the Dobot M1 in a proper operating environment and reboot it.
+
+0xA3
+9.4 Motor-locked Alarm of R-axis Driver Board
+Description
+The R-axis motor is stalled and the Driver board detects an abnormal current.
+Reason
+The R-axis motor is stalled and the Driver board detects an abnormal current.
+Solution
+1) Check whether the R-axis is in a machine-limited position or blocked by obstacles.
+2) Reboot Dobot M1.
+
+0xA4
+9.5 High DC Bus Voltage of R-axis Driver Board
+Description
+The DC bus voltage of R-axis Driver is too high.
+Reason
+The DC bus voltage of R-axis Driver is too high.
+Solution
+1) Check the power supply of Dobot M1.
+2) Reboot Dobot M1.
+
+0xA5
+9.6 Low DC Bus Voltage of R-axis Driver Board
+Description
+The DC bus voltage of R-axis Driver is too low.
+Reason
+The DC bus voltage of R-axis Driver is too low.
+Solution
+1) Check the power supply of Dobot M1.
+2) Reboot Dobot M1.
+
+0xA6
+9.7 IIT Alarm of R-axis Driver Board
+Description
+IIT alarm of R-axis Driver board.
+Reason
+R-axis motor works too long time (longer than the specific time) in overload state.
+Solution
+1) Check the load and working condition of Dobot M1.
+2) Reboot Dobot M1.
+
+0xA7
+9.8 Over-speed Alarm of R-axis Driver Board
+Description
+R-axis motor working speed is over the rated speeds or much higher than the expected speed.
+Reason
+- The power cable of R-axis motor is abnormal.
+- R-axis Encoder is abnormal.
+- The angle self-learning of R-axis motor is abnormal.
+Solution
+1) Check the power cable connection between R-axis motor and R-axis Driver board.
+2) Check the cable connection between R-axis Encoder and R-axis Driver board.
+3) Re-execute self-learning using Dobot M1 debugging software.
+
+0xA8
+9.9 Low Battery Capacity of R-axis Encoder
+Description
+The battery capacity of R-axis Encoder is too low.
+Reason
+- The connection between R-axis Encoder and the battery is abnormal.
+- The battery capacity of R-axis Encoder is low.
+Solution
+1) Check the connection between R-axis Encoder and the battery.
+2) Replace the battery and reset the Encoder based on the battery change guide on the
+M1Studio.
+
+0xA9
+9.10 Phase-lack Alarm of R-axis Motor
+Description
+R-axis motor lacks phase
+Reason
+The power cable of R-axis motor is disconnected or poor connected.
+Solution
+1) Check the power cable connection of R-axis motor.
+2) Reboot Dobot M1.
+
+0xAA
+9.11 Wrong Phase Alarm of R-axis Motor
+Description
+The power cable of R-axis motor has wrong phase.
+Reason
+The power cable connection between R-axis motor and R-axis Driver board is wrong.
+Solution
+1) Check the power cable connection of R-axis motor.
+2) Reboot Dobot M1.
+
+0xAB
+9.12 Lost-speed Alarm of R-axis Driver Board
+Description
+The working speed of R-axis motor is zero or much lower than the expected speed.
+Reason
+- The power cable of R-axis motor is abnormal.
+- R-axis Encoder is abnormal.
+- The angle self-learning of R-axis motor is abnormal.
+Solution
+1) Check the power cable connection between R-axis motor and R-axis Driver board.
+2) Check the cable connection between R-axis Encoder and R-axis Driver board.
+3) Re-execute angle self-learning using Dobot M1 debugging software.
+4) Reboot Dobot M1.
+
+0xAC
+9.13 Angle Self-learning Alarm of R-axis Driver Board
+Description
+The angle self-learning of R-axis Driver board is abnormal.
+Reason
+- The angle self-learning of R-axis Driver board has not been started.
+- The self-learning data in EEPROM is lost.
+Solution
+Re-execute self-learning using Dobot M1 debugging software.
+
+0xAD
+9.14 Calibration Alarm of R-axis Encoder
+Description
+R-axis Encoder is not calibrated.
+Reason
+- R-axis Encoder is not calibrated.
+- The calibration data of R-axis Encoder is lost.
+Solution
+Please recalibrate R-axis Encoder. For details, please see Dobot M1 User Guide.
+
+0xAE
+9.15 CAN Communication Interruption Alarm of R-axis
+Description
+The CAN communication with R-axis is interrupted.
+Reason
+- R-axis Driver board is not working.
+- The CAN cable connection between R-axis and the controller is abnormal.
+- The hardware circuit related to the CAN chip is abnormal.
+Solution
+Restart Dobot M1 after checking the CAN cable and the CAN chip.
+
+0xB0
+10.1 I/O Abnormality Alarm of End-effector
+Description
+The I/O interface of end-effector is abnormal.
+Reason
+- The cable connection is abnormal when testing I/O interface.
+- The I/O interface is unavailable.
+Solution
+Restart Dobot M1 after checking the cable connection.
+
+0xB1
+10.2 RS485 Communication Alarm of End-effector I/O Interface
+Description
+RS485 communication of the end-effector I/O interface is abnormal.
+Reason
+The cable connection of RS485 communication is abnormal.
+Solution
+Restart Dobot M1 after checking the cable connection.
+
+0xB2
+10.3 CAN Communication Interruption Alarm of End-effector I/O Interface
+Description
+CAN communication of the end-effector I/O interface is interrupted.
+Reason
+- The end-effector I/O interface is not working.
+- The CAN cable connection between the end-effector I/O interface and Driver is abnormal.
+- The hardware circuit related to the CAN chip is abnormal.
+Solution
+Restart Dobot M1 after checking the CAN cable and the CAN chip. For details, please contact technical support engineer.
+
+0x6C
+11.1 Emergency Stop Alarm
+Description
+Dobot M1 is in the emergency-stopped status
+Reason
+Hold down the emergency stop button, resulting in that Dobot M1 is in the stopped status.
+Solution
+Rotate the emergency stop button clockwise to clear the stopped status. It will be released when rotating to 45°.
