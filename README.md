@@ -3,7 +3,7 @@ A demo software to access basic functions of Dobot M1 written with Qt.
 
 A custom class MyDobot is created to handle multiple DobotM1s as objects.
 
-In this demo connection to DobotM1s is only possible via network (connection via serial port is not supported). In order to allow smoothless operation on both windows and linux machines, a self-made method to search DobotM1s was implemented. It is assumed IP addresses are assigned by dhcp server in local network.
+In this demo connection to DobotM1s is only possible via network (connection via serial port is not supported). In order to allow smooth operation on both windows and linux machines, a self-made method to search DobotM1s was implemented. It is assumed IP addresses are assigned by dhcp server in local network.
 
 Following functions are implemented:
 1) jogging;
