@@ -19,7 +19,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(getPoseTimer, &QTimer::timeout, this, &MainWindow::on_getPoseTimer);
 
     QSignalMapper *signalMapper = new QSignalMapper(this);
-    //connect(ui->btnXmJ1m, &QPushButton::pressed, this, &QSignalMapper::map); //can't connect in a new way, so use the old syntax
+    //connect(ui->btnXmJ1m, &QPushButton::pressed, this, &QSignalMapper::map); //can't connect in the new way, so use the old syntax
     connect(ui->btnXmJ1m, SIGNAL(pressed()), signalMapper, SLOT(map()));
     connect(ui->btnXpJ1p, SIGNAL(pressed()), signalMapper, SLOT(map()));
     connect(ui->btnYmJ2m, SIGNAL(pressed()), signalMapper, SLOT(map()));
@@ -62,7 +62,6 @@ void MainWindow::on_getPoseTimer()
     {
         Pose pose;
         GetPose(&pose);
-        //while (GetPose(&pose) != DobotCommunicate_NoError) {}
         ui->txtJ1->setText("J1=" + QString::number(static_cast<double>(pose.jointAngle[0])));
         ui->txtJ2->setText("J2=" + QString::number(static_cast<double>(pose.jointAngle[1])));
         ui->txtJ3->setText("J3=" + QString::number(static_cast<double>(pose.jointAngle[2])));
@@ -76,13 +75,14 @@ void MainWindow::on_getPoseTimer()
         uint32_t len, maxLen = 32;
         alarmState alarmstate;
         GetAlarmsState(alarmstate.value, &len, maxLen);
-        //while (GetAlarmsState(alarmstate.value, &len, maxLen) != DobotCommunicate_NoError) {}
-        int code = alarmStateToCode(alarmstate);
-        if (code != 8*32-1) {
-            ui->txtAlarms->setText("Alarm: 0x" + QString::number(code, 16));
-        }
-        else {
-            ui->txtAlarms->setText("");
+        QVector<int> code = alarmStateToCode(alarmstate);
+        for (int i=0; i<code.count(); i++){
+            if (code[i] != 8*32-1) {
+                ui->txtAlarms->setText("Alarm: 0x" + QString::number(code[i], 16));
+            }
+            else {
+                ui->txtAlarms->setText("");
+            }
         }
     }
 }
@@ -108,20 +108,22 @@ void MainWindow::on_buttonSearch_clicked()
             ui->listDobots->addItem(listSerialPort.at(i).portName());
             on_listDobots_activated(ui->listDobots->currentIndex());
         }
-    }*/
-
+    }
+*/
     QHostAddress host;
 
     QList<QHostAddress> list = QNetworkInterface::allAddresses();
-    for (int i=0; i<list.count(); i++)
+    for (int i=0; i<list.count(); i++) {
         if ((!list.at(i).isLoopback()) && (list.at(i).protocol() == QAbstractSocket::IPv4Protocol))
             host = list.at(i);
+    }
 
     QString subnet = host.toString().section('.',0,2);
 
     QByteArray data = "WhoisDobotM1";
 
     QUdpSocket udpSocketSend;
+
     udpSocketSend.writeDatagram(data);//need tocall it otherwise in Win get socket doesn't open
     udpSocketSend.bind(host, 54321, QAbstractSocket::ShareAddress);
 
@@ -178,7 +180,6 @@ void MainWindow::on_buttonClearAlarms_clicked()
 
 void MainWindow::SetPump()
 {
-    //bool status = false, direction = false;
     int intStatus, intDirection;
 
     if (ui->radioPumpOn->isChecked()) intStatus = 0;
@@ -189,9 +190,9 @@ void MainWindow::SetPump()
     dobot->at(ui->listDobots->currentIndex())->setAirPump(intStatus, intDirection);
 }
 
-void MainWindow::on_buttonGoHome_clicked()
+void MainWindow::on_buttonGoHomeSafe_clicked()
 {
-    dobot->at(ui->listDobots->currentIndex())->goHomeShngld();
+    dobot->at(ui->listDobots->currentIndex())->goHomeSafe();
 }
 
 void MainWindow::on_buttonGoHomeSimple_clicked()
@@ -204,6 +205,11 @@ void MainWindow::on_buttonExecPtpJ_clicked()
     dobot->at(ui->listDobots->currentIndex())->goPosition(ui->txtPtpX->text().toFloat(), ui->txtPtpY->text().toFloat(), ui->txtPtpZ->text().toFloat(), ui->txtPtpR->text().toFloat());
 }
 
+void MainWindow::on_buttonExecPtpL_clicked()
+{
+    dobot->at(ui->listDobots->currentIndex())->goPositionStraight(ui->txtPtpX->text().toFloat(), ui->txtPtpY->text().toFloat(), ui->txtPtpZ->text().toFloat(), ui->txtPtpR->text().toFloat());
+}
+
 void MainWindow::on_Jog_pressed(int index)
 {
     dobot->at(ui->listDobots->currentIndex())->goJog(index + ui->listJogMode->currentIndex()*8);
@@ -212,23 +218,6 @@ void MainWindow::on_Jog_pressed(int index)
 void MainWindow::on_Jog_released()
 {
     dobot->at(ui->listDobots->currentIndex())->goJog(0);
-}
-
-void MainWindow::on_buttonPickAndPlace_clicked()
-{
-    int dy = 30;
-    float dz = 0.18;
-
-    for (int j = 0; j<4; j++) {
-        dobot->at(ui->listDobots->currentIndex())->goPosition(45, 205, 40, 0);
-        dobot->at(ui->listDobots->currentIndex())->goPosition(45, 205, 26 - dz*j, 0);
-        dobot->at(ui->listDobots->currentIndex())->setAirPump(0, 0); // pump on = 0, suck = 0
-        dobot->at(ui->listDobots->currentIndex())->goPosition(45, 205, 40, 0);
-        dobot->at(ui->listDobots->currentIndex())->goPosition(250, 30 - dy*j, 40, 90);
-        dobot->at(ui->listDobots->currentIndex())->goPosition(250, 30 - dy*j, 26, 90);
-        dobot->at(ui->listDobots->currentIndex())->setAirPump(1, 0); // pump on = 0, suck = 0
-        dobot->at(ui->listDobots->currentIndex())->goPosition(250, 30 - dy*j, 40, 90);
-    }
 }
 
 void MainWindow::on_radioPumpOn_toggled(bool checked)
@@ -265,4 +254,10 @@ void MainWindow::on_listJogMode_currentIndexChanged(int index)
         ui->btnRpJ4p->setText("J4+");
         ui->btnRmJ4m->setText("J4-");
     }
+}
+
+
+void MainWindow::on_buttonClearQueue_clicked()
+{
+    dobot->at(ui->listDobots->currentIndex())->clearQueue();
 }

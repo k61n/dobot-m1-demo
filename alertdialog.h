@@ -33,6 +33,6 @@ private:
     uint8_t alertState;
 };
 
-int alarmStateToCode(alarmState a);
+QVector<int> alarmStateToCode(alarmState a);
 
 #endif // ALERTDIALOG_H

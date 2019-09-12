@@ -12,18 +12,18 @@ CONFIG += c++11
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-    mydobot.cpp \
-    alertdialog.cpp
+        mydobot.cpp \
+        alertdialog.cpp
 
 HEADERS += \
         mainwindow.h \
-    mydobot.h \
-    alertdialog.h \
-    mytypes.h
+        mydobot.h \
+        alertdialog.h \
+        mytypes.h
 
 FORMS += \
         mainwindow.ui \
-    alertdialog.ui
+        alertdialog.ui
 
 INCLUDEPATH += $$PWD/dobotm1lib
 

@@ -24,43 +24,7 @@ void MyDobot::initDobot(QByteArray IPaddress)
     while (GetDeviceName(deviceName, sizeof(deviceName))  != DobotCommunicate_NoError) {}
     //qDebug() << IPaddress << "Device SN:" << deviceSN << "Device name" << deviceName;
 
-    JOGJointParams jogJointParams;
-    for (int i = 0; i < 4; i++) {
-        jogJointParams.velocity[i] = 100;
-        jogJointParams.acceleration[i] = 100;
-    }
-    while (SetJOGJointParams(&jogJointParams, false, nullptr) != DobotCommunicate_NoError) {}
-
-    JOGCoordinateParams jogCoordinateParams;
-    for (int i = 0; i < 4; i++) {
-        jogCoordinateParams.velocity[i] = 100;
-        jogCoordinateParams.acceleration[i] = 100;
-    }
-    while (SetJOGCoordinateParams(&jogCoordinateParams, false, nullptr)  != DobotCommunicate_NoError) {}
-
-    JOGCommonParams jogCommonParams;
-    jogCommonParams.velocityRatio = 100;
-    jogCommonParams.accelerationRatio = 100;
-    while (SetJOGCommonParams(&jogCommonParams, false, nullptr) != DobotCommunicate_NoError) {}
-
-    PTPJointParams ptpJointParams;
-    for (int i = 0; i < 4; i++) {
-        ptpJointParams.velocity[i] = 100;
-        ptpJointParams.acceleration[i] = 100;
-    }
-    while (SetPTPJointParams(&ptpJointParams, false, nullptr) != DobotCommunicate_NoError) {}
-
-    PTPCoordinateParams ptpCoordinateParams;
-    ptpCoordinateParams.xyzVelocity = 100;
-    ptpCoordinateParams.xyzAcceleration = 100;
-    ptpCoordinateParams.rVelocity = 100;
-    ptpCoordinateParams.rAcceleration = 100;
-    while (SetPTPCoordinateParams(&ptpCoordinateParams, false, nullptr) != DobotCommunicate_NoError) {}
-
-    PTPCommonParams ptpCommonParams;
-    ptpCommonParams.velocityRatio = 100;
-    ptpCommonParams.accelerationRatio = 100;
-    while (SetPTPCommonParams(&ptpCommonParams, false, nullptr) != DobotCommunicate_NoError) {}
+    setMotor(100, 100);
 
     PTPJumpParams ptpJumpParams;
     ptpJumpParams.jumpHeight = 20;
@@ -91,10 +55,54 @@ void MyDobot::setOutput(uint8_t address, uint8_t level)
     while (SetIODO(&out, false, nullptr) != DobotCommunicate_NoError) {}
 }
 
-void MyDobot::goHomeShngld()
+void MyDobot::setMotor(int velocity, int acceleration)
+{
+    ConnectDobot(thisDobotIP, 115200, nullptr, nullptr);
+
+    JOGJointParams jogJointParams;
+    for (int i = 0; i < 4; i++) {
+        jogJointParams.velocity[i] = velocity;
+        jogJointParams.acceleration[i] = acceleration;
+    }
+    while (SetJOGJointParams(&jogJointParams, true, nullptr) != DobotCommunicate_NoError) {}
+
+    JOGCoordinateParams jogCoordinateParams;
+    for (int i = 0; i < 4; i++) {
+        jogCoordinateParams.velocity[i] = velocity;
+        jogCoordinateParams.acceleration[i] = acceleration;
+    }
+    while (SetJOGCoordinateParams(&jogCoordinateParams, true, nullptr)  != DobotCommunicate_NoError) {}
+
+    JOGCommonParams jogCommonParams;
+    jogCommonParams.velocityRatio = velocity;
+    jogCommonParams.accelerationRatio = acceleration;
+    while (SetJOGCommonParams(&jogCommonParams, true, nullptr) != DobotCommunicate_NoError) {}
+
+    PTPJointParams ptpJointParams;
+    for (int i = 0; i < 4; i++) {
+        ptpJointParams.velocity[i] = velocity;
+        ptpJointParams.acceleration[i] = acceleration;
+    }
+    while (SetPTPJointParams(&ptpJointParams, true, nullptr) != DobotCommunicate_NoError) {}
+
+    PTPCoordinateParams ptpCoordinateParams;
+    ptpCoordinateParams.xyzVelocity = velocity;
+    ptpCoordinateParams.xyzAcceleration = acceleration;
+    ptpCoordinateParams.rVelocity = velocity;
+    ptpCoordinateParams.rAcceleration = acceleration;
+    while (SetPTPCoordinateParams(&ptpCoordinateParams, true, nullptr) != DobotCommunicate_NoError) {}
+
+    PTPCommonParams ptpCommonParams;
+    ptpCommonParams.velocityRatio = velocity;
+    ptpCommonParams.accelerationRatio = acceleration;
+    while (SetPTPCommonParams(&ptpCommonParams, true, nullptr) != DobotCommunicate_NoError) {}
+}
+
+void MyDobot::goHomeSafe()
 {
     ConnectDobot(thisDobotIP, 115200, nullptr, nullptr);
     while (SetQueuedCmdClear() != DobotCommunicate_NoError) {}
+    //goSafe();
 
     Pose position;
     while (GetPose(&position) != DobotCommunicate_NoError) {}
@@ -109,19 +117,21 @@ void MyDobot::goHomeShngld()
     while (SetPTPCmd(&safePosition, true, nullptr) != DobotCommunicate_NoError) {}
 
     safePosition.x = -150;
-    safePosition.y = 140;
+    safePosition.y = 150;
 
     while (SetPTPCmd(&safePosition, true, nullptr) != DobotCommunicate_NoError) {}
 
     while (SetHOMEWithSwitch(0, true, nullptr) != DobotCommunicate_NoError) {}
 
-    safePosition.x = 470;
+    //PTPCmd safePosition;
+    safePosition.x = 400;
     safePosition.y = 0;
     safePosition.z = 100;
+    safePosition.r = 0;
     while (SetPTPCmd(&safePosition, true, nullptr) != DobotCommunicate_NoError) {}
 
     safePosition.x = -150;
-    safePosition.y = 140;
+    safePosition.y = 150;
     while (SetPTPCmd(&safePosition, true, nullptr) != DobotConnect_NoError) {}
 }
 
@@ -130,6 +140,28 @@ void MyDobot::goHome()
     ConnectDobot(thisDobotIP, 115200, nullptr, nullptr);
     SetQueuedCmdClear();
     while (SetHOMEWithSwitch(0, true, nullptr) != DobotCommunicate_NoError) {}
+}
+
+void MyDobot::goSafe()
+{
+    ConnectDobot(thisDobotIP, 115200, nullptr, nullptr);
+
+    Pose position;
+    while (GetPose(&position) != DobotCommunicate_NoError) {}
+
+    PTPCmd safePosition;
+    safePosition.x = position.x;
+    safePosition.y = position.y;
+    safePosition.z = 100;
+    safePosition.r = 0;
+    safePosition.ptpMode = PTPMOVJXYZMode;
+
+    while (SetPTPCmd(&safePosition, true, nullptr) != DobotCommunicate_NoError) {}
+
+    safePosition.x = -150;
+    safePosition.y = 150;
+
+    while (SetPTPCmd(&safePosition, true, nullptr) != DobotCommunicate_NoError) {}
 }
 
 Pose MyDobot::getCurrentPosition()
@@ -155,6 +187,20 @@ void MyDobot::goPosition(float x, float y, float z, float r)
     while (SetPTPCmd(&PTPCmd, true, nullptr) != DobotCommunicate_NoError) {}
 }
 
+void MyDobot::goPositionStraight(float x, float y, float z, float r)
+{
+    ConnectDobot(thisDobotIP, 115200, nullptr, nullptr);
+
+    PTPCmd PTPCmd;
+    PTPCmd.ptpMode = PTPMOVLXYZMode;
+    PTPCmd.x = x;
+    PTPCmd.y = y;
+    PTPCmd.z = z;
+    PTPCmd.r = r;
+
+    while (SetPTPCmd(&PTPCmd, true, nullptr) != DobotCommunicate_NoError) {}
+}
+
 void MyDobot::goJog(int index)
 {
     ConnectDobot(thisDobotIP, 115200, nullptr, nullptr);
@@ -163,7 +209,8 @@ void MyDobot::goJog(int index)
     jogCmd.isJoint = index > 8;
     if (index > 8) index -= 8;
     jogCmd.cmd = static_cast<uint8_t>(index);
-    while (SetJOGCmd(&jogCmd, false, nullptr) != DobotCommunicate_NoError) {}
+    //while (SetJOGCmd(&jogCmd, false, nullptr) != DobotCommunicate_NoError) {}
+    SetJOGCmd(&jogCmd, false, nullptr);
 }
 
 alarmState MyDobot::getAlarms()
@@ -180,6 +227,12 @@ void MyDobot::clearAlarms()
 {
     ConnectDobot(thisDobotIP, 115200, nullptr, nullptr);
     while (ClearAllAlarmsState() != DobotCommunicate_NoError) {}
+}
+
+void MyDobot::clearQueue()
+{
+    ConnectDobot(thisDobotIP, 115200, nullptr, nullptr);
+    while (SetQueuedCmdClear() != DobotCommunicate_NoError) {}
 }
 
 QString MyDobot::getName()

@@ -19,11 +19,12 @@ AlertDialog::~AlertDialog()
 
 void AlertDialog::input(alarmState a)
 {
-    int code = alarmStateToCode(a);
-    if (code != 8*32-1) {
-        ui->plainTextEdit->appendPlainText("Error code " + QString::number(code) + " 0x" + QString::number(code, 16));
-        //ui->plainTextEdit->appendPlainText(alarm);
-        parseError(code);
+    QVector<int> code = alarmStateToCode(a);
+    for (int i=0; i<code.count(); i++){
+        if (code[i] != 8*32-1) {
+            ui->plainTextEdit->appendPlainText("Error code " + QString::number(code[i]) + " 0x" + QString::number(code[i], 16));
+            parseError(code[i]);
+        }
     }
 }
 
@@ -67,25 +68,25 @@ void AlertDialog::on_btnExit_clicked()
     this->close();
 }
 
-int alarmStateToCode(alarmState a)
+QVector<int> alarmStateToCode(alarmState a)
 {
-    int code = -1;
+    QVector<int> result;
 
     QString alarm = "";
     int len = sizeof (a);
     for (int i=0; i<len; i++) {
         alarm += QString::number(a.value[i]) + " ";
-        if (a.value[i] == 0) code += 8;
-        else {
+        if (a.value[i] != 0) {
             QString b = QString::number(a.value[i], 2);
             int j=b.length()-1, pos=1;
             while (b[j] != '1') {
                 j--;
                 pos++;
             }
-            code += pos;
-            break;
+            result.push_back(pos + 8*i - 1);
         }
     }
-    return code;
+
+    if (result.count() == 0) result.push_back(8*32-1);
+    return result;
 }

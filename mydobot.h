@@ -17,16 +17,20 @@ public:
     void initDobot(QByteArray IPaddress);
     Pose getCurrentPosition();
 
-    void goHomeShngld();
+    void goHomeSafe();
     void goHome();
+    void goSafe();
     void goPosition(float x, float y, float z, float r);
+    void goPositionStraight(float x, float y, float z, float r);
     void goJog(int index);
 
     void setAirPump(int status, int direction); //status 1 off 0 on; direction 0 suck 1 push
     void setOutput(uint8_t address, uint8_t level);
+    void setMotor(int velocity, int acceleration);
 
     alarmState getAlarms();
     void clearAlarms();
+    void clearQueue();
 
     QString getName();
 
