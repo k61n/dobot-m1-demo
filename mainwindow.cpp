@@ -118,7 +118,7 @@ void MainWindow::on_buttonSearch_clicked()
             host = list.at(i);
     }
 
-    QString subnet = host.toString().section('.',0,2);
+    QString subnet = host.toString().section('.',0,2) + ".";
 
     QByteArray data = "WhoisDobotM1";
 
@@ -131,7 +131,7 @@ void MainWindow::on_buttonSearch_clicked()
     connect(&udpSocketGet, &QUdpSocket::readyRead, this, &MainWindow::readUdpData);
 
     for (int i=1; i<255; i++)
-        udpSocketSend.writeDatagram(data, 32, QHostAddress("192.168.1." + QString::number(i)), 6000);
+        udpSocketSend.writeDatagram(data, 32, QHostAddress(subnet + QString::number(i)), 6000);
 }
 
 void MainWindow::on_listDobots_activated(int index)
